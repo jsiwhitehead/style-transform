@@ -1,0 +1,35 @@
+{
+  "name": "style-transform",
+  "version": "0.1.0",
+  "description": "A toolkit for fast and flexible manipulation of css-in-js styles",
+  "author": "Jon Whitehead",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "prettier": "prettier --single-quote --trailing-comma all --write \"{src,test}/**/*.{ts,tsx}\"",
+    "clean": "rimraf lib/*",
+    "build": "yarn run clean && tsc",
+    "test": "jest",
+    "prepublish": "yarn run test && yarn run build"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": ["ts", "tsx", "js"]
+  },
+  "devDependencies": {
+    "@types/jest": "^20.0.2",
+    "jest": "^20.0.4",
+    "prettier": "^1.5.2",
+    "rimraf": "^2.6.1",
+    "ts-jest": "^20.0.6",
+    "typescript": "^2.4.1"
+  },
+  "dependencies": {
+    "css-shorthand-expand": "^1.1.0",
+    "object-path-immutable": "^0.5.1"
+  }
+}
