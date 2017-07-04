@@ -1,5 +1,10 @@
 export { default as createTransform } from './createTransform';
-export { CSSProperties, CSSTree } from './typings';
+export {
+  CSSProperties,
+  CSSTree,
+  StyleTransforms,
+  TransformConfig,
+} from './typings';
 
 import coreTransforms from './transforms';
 import { CSSMap, CSSTree, StyleTransforms, TransformConfig } from './typings';

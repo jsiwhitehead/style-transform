@@ -1,6 +1,6 @@
 {
   "name": "style-transform",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A toolkit for fast and flexible manipulation of css-in-js styles",
   "author": "Jon Whitehead",
   "license": "MIT",
