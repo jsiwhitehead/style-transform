@@ -33,9 +33,14 @@ export default function scale(
       ),
     ].map(k => dirProps[k] || k),
   );
+  if (allProps.includes('lineHeight')) allProps.push('fontSize');
 
   const expanded = expandFor(style, ...allProps);
   const result = { ...expanded };
+  if (typeof expanded.lineHeight === 'number') {
+    expanded.lineHeight = `${expanded.lineHeight *
+      parseFloat(expanded.fontSize as string)}px`;
+  }
 
   for (const key of scaleProps) {
     if (!dirProps[key]) {
@@ -51,6 +56,7 @@ export default function scale(
           ),
         );
       }
+      if (key === 'lineHeight') result[key] += 'px';
     } else {
       for (const d of dirs) {
         const dKey = `${key}${d}`;

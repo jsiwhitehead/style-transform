@@ -195,4 +195,17 @@ describe('css: scale', () => {
       position: 'absolute',
     });
   });
+
+  test('scale numeric line height', () => {
+    expect(
+      scale(
+        { fontSize: 10, lineHeight: 2 },
+        { height: { fontSize: 1, lineHeight: 1 }, lineHeight: 2 },
+      ),
+    ).toEqual({
+      fontSize: 10,
+      lineHeight: '40px',
+      height: 30,
+    });
+  });
 });
