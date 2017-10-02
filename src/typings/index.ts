@@ -1,12 +1,10 @@
-import CSSProperties from './cssProperties';
-
-export { default as CSSProperties } from './cssProperties';
+import CSSProps from './cssProperties';
 
 export type Falsy = null | undefined | false;
 
 export type Obj<T = any> = { [key: string]: T };
 
-export type CSSProps = CSSProperties;
+export { default as CSSProps } from './cssProperties';
 export type CSSTree<T extends string = any> = CSSProps &
   { [P in T]?: CSSTree<T> };
 export type CSSMap = { [k: string]: CSSProps };

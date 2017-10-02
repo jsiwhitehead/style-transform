@@ -5,7 +5,7 @@ describe('utils: memoize', () => {
     let numCalls = 0;
     const addY = memoizeFunc((o?) => {
       numCalls += 1;
-      return { ...o || {}, y: 1 };
+      return { ...(o || {}), y: 1 };
     });
 
     addY();

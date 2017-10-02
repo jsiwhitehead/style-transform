@@ -1,6 +1,6 @@
 {
   "name": "style-transform",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description":
     "A toolkit for fast and flexible manipulation of css-in-js styles",
   "author": "Jon Whitehead",
@@ -23,15 +23,15 @@
     "moduleFileExtensions": ["ts", "tsx", "js"]
   },
   "devDependencies": {
-    "@types/jest": "^20.0.8",
-    "jest": "^21.0.1",
-    "prettier": "^1.6.1",
-    "rimraf": "^2.6.1",
-    "ts-jest": "^21.0.0",
-    "typescript": "^2.5.2"
+    "@types/jest": "^21.1.1",
+    "jest": "^21.2.1",
+    "prettier": "^1.7.3",
+    "rimraf": "^2.6.2",
+    "ts-jest": "^21.0.1",
+    "typescript": "^2.5.3"
   },
   "dependencies": {
     "css-shorthand-expand": "^1.1.0",
-    "object-path-immutable": "^0.5.1"
+    "object-path-immutable": "^0.5.2"
   }
 }

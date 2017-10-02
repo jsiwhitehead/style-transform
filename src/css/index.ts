@@ -1,6 +1,6 @@
-import { CSSProperties, Obj } from '../typings';
+import { CSSProps, Obj } from '../typings';
 
-(...x) => x as CSSProperties | Obj;
+(...x) => x as CSSProps | Obj;
 
 import expandFor from './expandFor';
 import filter from './filter';
