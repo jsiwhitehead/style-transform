@@ -6,7 +6,7 @@ import { CSSMap, CSSTree, StyleTransforms, TransformConfig } from './typings';
 import { mapToTree, memoizeFunc, treeToMap } from './utils';
 
 const run = memoizeFunc((transforms?: StyleTransforms) => {
-  const allTransforms = { ...coreTransforms, ...transforms || {} };
+  const allTransforms = { ...coreTransforms, ...(transforms || {}) };
   return memoizeFunc(
     (config: TransformConfig[]) =>
       memoizeFunc(
