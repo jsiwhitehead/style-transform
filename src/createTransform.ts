@@ -1,30 +1,23 @@
-import {
-  CSSMap,
-  CSSProps,
-  CSSTree,
-  MapTransform,
-  PropsTransform,
-  TreeTransform,
-} from './typings';
+import { CSSMap, CSSProps, CSSTree, Transform } from './typings';
 import { mapToTree, treeToMap } from './utils';
 
-const wrapTransform = <T extends CSSProps | CSSTree | CSSMap>(
-  type: string,
-  transform: (style: T, ...args: any[]) => T,
-) => (style: CSSMap, ...args: any[]) => {
+const wrapTransform = (type: string, transform: Transform) => (
+  style: CSSMap,
+  ...args: any[]
+) => {
   if (type === 'props') {
-    return { ...style, '': (transform as PropsTransform)(style[''], ...args) };
+    return { ...style, '': transform(style[''], ...args) };
   }
   if (type === 'tree') {
-    return treeToMap((transform as TreeTransform)(mapToTree(style), ...args));
+    return treeToMap(transform(mapToTree(style), ...args));
   }
-  return (transform as MapTransform)(style, ...args);
+  return transform(style, ...args);
 };
 
 export default Object.assign(
-  (transform: PropsTransform) => wrapTransform('props', transform),
+  (transform: Transform<CSSProps>) => wrapTransform('props', transform),
   {
-    tree: (transform: TreeTransform) => wrapTransform('tree', transform),
-    map: (transform: MapTransform) => wrapTransform('map', transform),
+    tree: (transform: Transform<CSSTree>) => wrapTransform('tree', transform),
+    map: (transform: Transform<CSSMap>) => wrapTransform('map', transform),
   },
 );

@@ -1,7 +1,9 @@
 import createTransform from './createTransform';
 import css from './css';
-import { CSSMap, CSSTree, Obj } from './typings';
+import { CSSProps, CSSMap, CSSTree, Obj } from './typings';
 import { isObject, treeToMap, unique } from './utils';
+
+x => x as CSSProps;
 
 const mergeMaps = (...styleMaps: CSSMap[]): CSSMap => {
   const keys = unique(styleMaps.map(m => Object.keys(m)));
@@ -37,7 +39,7 @@ export default {
     (styleMap, ...args: (string | Obj<boolean>)[]) => {
       const keys = isObject(args[0])
         ? Object.keys(args[0]).filter(k => args[0][k])
-        : args as string[];
+        : (args as string[]);
       return Object.keys(styleMap)
         .map(k => ({
           split: k ? k.split('.') : [],

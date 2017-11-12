@@ -9,10 +9,11 @@ export type CSSTree<T extends string = any> = CSSProps &
   { [P in T]?: CSSTree<T> };
 export type CSSMap = { [k: string]: CSSProps };
 
-export type PropsTransform = (style: CSSProps, ...args: any[]) => CSSProps;
-export type TreeTransform = (style: CSSTree, ...args: any[]) => CSSTree;
-export type MapTransform = (style: CSSMap, ...args: any[]) => CSSMap;
+export type Transform<T = CSSProps | CSSTree | CSSMap> = (
+  style: T,
+  ...args: any[]
+) => T;
 
 export type TransformConfig = any[] | CSSTree | Falsy;
 
-export type StyleTransforms = Obj<MapTransform>;
+export type StyleTransforms = Obj<Transform<CSSMap>>;

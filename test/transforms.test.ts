@@ -36,16 +36,16 @@ describe('transforms', () => {
   test('expandFor', () => {
     expect(transforms.expandFor({ '': {} }, 'paddingTop')).toEqual({ '': {} });
 
-    expect(
-      transforms.expandFor({ '': { padding: 10 } }, 'paddingTop'),
-    ).toEqual({
-      '': {
-        paddingTop: 10,
-        paddingRight: 10,
-        paddingBottom: 10,
-        paddingLeft: 10,
+    expect(transforms.expandFor({ '': { padding: 10 } }, 'paddingTop')).toEqual(
+      {
+        '': {
+          paddingTop: 10,
+          paddingRight: 10,
+          paddingBottom: 10,
+          paddingLeft: 10,
+        },
       },
-    });
+    );
   });
 
   test('filter', () => {
