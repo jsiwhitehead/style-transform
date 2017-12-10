@@ -5,8 +5,9 @@ export type Falsy = null | undefined | false;
 export type Obj<T = any> = { [key: string]: T };
 
 export { default as CSSProps } from './cssProperties';
-export type CSSTree<T extends string = any> = CSSProps &
-  { [P in T]?: CSSTree<T> };
+export type CSSTree<T extends string = any> =
+  | CSSProps
+  | (CSSProps & { [P in T]: CSSTree<T> });
 export type CSSMap = { [k: string]: CSSProps };
 
 export type Transform<T = CSSProps | CSSTree | CSSMap> = (

@@ -1,9 +1,11 @@
 import * as immutable from 'object-path-immutable';
 
 import css from '../css';
-import { CSSMap, CSSTree } from '../typings';
+import { CSSMap, CSSProps, CSSTree } from '../typings';
 
 import { isObject } from './misc';
+
+x => x as CSSProps;
 
 export const mapToTree = (styleMap: CSSMap): CSSTree => {
   let branchStyles = {} as any;
