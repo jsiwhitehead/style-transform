@@ -20,5 +20,5 @@ Specifically, these utilities smooth over the difficulties of working with CSS s
 style.marginTop;
 
 // returns NaN, not 24
-style.fontSize * 1.5
+style.fontSize * 1.5;
 ```
