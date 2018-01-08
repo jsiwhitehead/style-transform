@@ -1,15 +1,13 @@
 {
   "name": "style-transform",
-  "version": "0.1.8",
-  "description":
-    "A toolkit for fast and flexible manipulation of css-in-js styles",
+  "version": "0.1.9",
+  "description": "A toolkit for fast and flexible manipulation of css-in-js styles",
   "author": "Jon Whitehead",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "prettier":
-      "prettier --single-quote --trailing-comma all --write \"{src,test}/**/*.ts\"",
+    "prettier": "prettier --single-quote --trailing-comma all --write \"{src,test}/**/*.ts\"",
     "clean": "rimraf lib/*",
     "build": "yarn run clean && tsc",
     "test": "jest",
@@ -20,14 +18,17 @@
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|js)$",
-    "moduleFileExtensions": ["ts", "js"]
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
   },
   "devDependencies": {
-    "@types/jest": "^21.1.8",
-    "jest": "^21.2.1",
-    "prettier": "^1.9.1",
+    "@types/jest": "^22.0.1",
+    "jest": "^22.0.4",
+    "prettier": "^1.9.2",
     "rimraf": "^2.6.2",
-    "ts-jest": "^21.2.4",
+    "ts-jest": "^22.0.1",
     "typescript": "^2.6.2"
   },
   "dependencies": {
