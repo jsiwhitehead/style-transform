@@ -1,6 +1,6 @@
 import * as cssExpand from 'css-shorthand-expand';
 
-import { CSSProps } from '../typings';
+import { CSSProps, Obj } from '../typings';
 import { undefOrNull } from '../utils';
 
 import { ShorthandProp } from './shorthands';
@@ -18,7 +18,7 @@ export default function expandProp(
 
   if (undefOrNull(value)) return {};
 
-  const expanded = {} as any;
+  const expanded = {} as Obj;
   if (property === 'borderRadius') {
     let split = typeof value === 'string' ? value.split(/\s+/) : [value];
     expanded.borderTopLeftRadius = split[0];
