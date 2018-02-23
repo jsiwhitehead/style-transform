@@ -79,6 +79,29 @@ describe('css: scale', () => {
     });
   });
 
+  test.only('scale string shorthand border style', () => {
+    expect(
+      scale(
+        { border: '2px solid black', position: 'absolute' },
+        { borderWidth: 2 },
+      ),
+    ).toEqual({
+      borderTopWidth: 4,
+      borderTopStyle: 'solid',
+      borderTopColor: 'black',
+      borderRightWidth: 4,
+      borderRightStyle: 'solid',
+      borderRightColor: 'black',
+      borderBottomWidth: 4,
+      borderBottomStyle: 'solid',
+      borderBottomColor: 'black',
+      borderLeftWidth: 4,
+      borderLeftStyle: 'solid',
+      borderLeftColor: 'black',
+      position: 'absolute',
+    });
+  });
+
   test('scale string shorthand styles', () => {
     expect(
       scale(

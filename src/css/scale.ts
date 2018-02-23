@@ -7,13 +7,12 @@ const dirProps = {
   margin: ['marginTop', 'marginRight', 'marginBottom', 'marginLeft'],
   padding: ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
   borderWidth: [
-    'borderWidthTop',
-    'borderWidthRight',
-    'borderWidthBottom',
-    'borderWidthLeft',
+    'borderTopWidth',
+    'borderRightWidth',
+    'borderBottomWidth',
+    'borderLeftWidth',
   ],
 };
-const dirs = ['Top', 'Right', 'Bottom', 'Left'];
 
 const round = (value: number) =>
   value > 0 ? Math.round(value) : -Math.round(-value);
@@ -58,24 +57,23 @@ export default function scale(
       }
       if (key === 'lineHeight') result[key] += 'px';
     } else {
-      for (const d of dirs) {
-        const dKey = `${key}${d}`;
+      dirProps[key].forEach((p, i) => {
         if (typeof scales[key] === 'number') {
-          result[dKey] = round(
-            parseFloat(expanded[dKey] || 0) * (scales[key] as number),
+          result[p] = round(
+            parseFloat(expanded[p] || 0) * (scales[key] as number),
           );
         } else {
-          result[dKey] = round(
+          result[p] = round(
             Object.keys(scales[key]).reduce(
               (res, k) =>
                 res +
-                parseFloat(expanded[dirProps[k] ? `${k}${d}` : k] || 0) *
+                parseFloat(expanded[dirProps[k] ? dirProps[k][i] : k] || 0) *
                   scales[key][k],
               0,
             ),
           );
         }
-      }
+      });
     }
   }
 
