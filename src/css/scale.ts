@@ -19,7 +19,7 @@ const round = (value: number) =>
 
 export default function scale(
   style: CSSProps | undefined,
-  scales: Obj<number | Obj<number>> = {},
+  scales: Obj<number | Obj<number>>,
 ): CSSProps {
   const scaleProps = Object.keys(scales);
   const allProps = unique(

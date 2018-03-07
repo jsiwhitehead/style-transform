@@ -1,64 +1,153 @@
-import styleTransform from '../src';
+import st from '../src/index';
 
-describe('index', () => {
-  test('empty style and config', () => {
-    expect(styleTransform(undefined, [])).toEqual({});
+const jsonexpect = (a, b) =>
+  expect(JSON.parse(JSON.stringify(a))).toEqual(JSON.parse(JSON.stringify(b)));
+
+describe('transforms', () => {
+  test('defaults', () => {
+    jsonexpect(st({}).defaults(), {});
+    jsonexpect(st({}).defaults(undefined), {});
+    jsonexpect(st({}).defaults({}), {});
+
+    jsonexpect(st({}).defaults({ '': { width: 10 } }), { width: 10 });
+    jsonexpect(st({}).defaults({ width: 10 }), { width: 10 });
+    jsonexpect(st({ width: 10 }).defaults({ width: 20 }), { width: 10 });
+
+    jsonexpect(
+      st({
+        width: 10,
+        focused: { width: 20 },
+      }).defaults({
+        height: 30,
+        focused: { width: 40 },
+      }),
+      { width: 10, height: 30 },
+    );
   });
 
-  test('map empty style to new object', () => {
-    expect(styleTransform(undefined, [{ width: 10 }])).toEqual({ width: 10 });
-  });
+  test('expandFor', () => {
+    jsonexpect(st({}).expandFor('paddingTop'), {});
 
-  test('map style to new object', () => {
-    expect(styleTransform({ height: 10 }, [{ width: 20 }])).toEqual({
-      width: 20,
+    jsonexpect(st({ padding: 10 }).expandFor('paddingTop'), {
+      paddingTop: 10,
+      paddingRight: 10,
+      paddingBottom: 10,
+      paddingLeft: 10,
     });
   });
 
-  test('map empty root style with transform', () => {
-    expect(styleTransform(undefined, [['merge', { width: 10 }]])).toEqual({
+  test('filter', () => {
+    jsonexpect(st({}).filter('paddingTop'), {});
+
+    jsonexpect(st({ paddingTop: 10, paddingRight: 10 }).filter('paddingTop'), {
+      paddingTop: 10,
+    });
+
+    jsonexpect(st({ padding: 10 }).filter('paddingTop'), { paddingTop: 10 });
+  });
+
+  test('filterKeys', () => {
+    jsonexpect(st({}).filterKeys('focused'), {});
+
+    jsonexpect(
+      st({
+        width: 10,
+        focused: { width: 20 },
+        active: { width: 40, focused: { width: 30 } },
+      }).filterKeys('focused'),
+      { width: 10 },
+    );
+  });
+
+  test('merge', () => {
+    jsonexpect(st({}).merge(), {});
+    jsonexpect(st({}).merge(undefined), {});
+    jsonexpect(st({}).merge({}), {});
+
+    jsonexpect(st({ width: 10 }).merge(), { width: 10 });
+    jsonexpect(st({}).merge({ width: 10 }), { width: 10 });
+
+    jsonexpect(st({ width: 20 }).merge({ width: 10 }), { width: 10 });
+    jsonexpect(st({ width: 20, height: 30 }).merge({ width: 10 }), {
       width: 10,
+      height: 30,
+    });
+    jsonexpect(
+      st({ width: 40 }).merge({ width: 10 }, { width: 20, height: 30 }),
+      { width: 20, height: 30 },
+    );
+
+    jsonexpect(
+      st({ height: 40, focused: { width: 50 } }).merge(
+        { width: 10, focused: { width: 20 } },
+        { focused: { height: 30 } },
+      ),
+      { width: 10, height: 40 },
+    );
+  });
+
+  test('mergeKeys', () => {
+    jsonexpect(st({}).mergeKeys(), {});
+    jsonexpect(st({}).mergeKeys('focused'), {});
+
+    jsonexpect(
+      st({ width: 10, focused: { height: 20 } }).mergeKeys('focused'),
+      { width: 10, height: 20 },
+    );
+    jsonexpect(
+      st({
+        width: 10,
+        focused: { height: 20 },
+        hovered: { width: 40, focused: { width: 30 } },
+      }).mergeKeys('focused', 'active'),
+      { width: 10, height: 20 },
+    );
+    jsonexpect(
+      st({
+        width: 10,
+        focused: { height: 20 },
+        active: { width: 40, focused: { width: 30 } },
+      }).mergeKeys('focused', 'active'),
+      { width: 30, height: 20 },
+    );
+
+    jsonexpect(
+      st({
+        width: 10,
+        focused: { height: 20 },
+        active: { width: 40, focused: { width: 30 } },
+      }).mergeKeys({ focused: true, active: true, hovered: false }),
+      { width: 30, height: 20 },
+    );
+  });
+
+  test('numeric', () => {
+    jsonexpect(st({}).numeric(), {});
+
+    jsonexpect(st({}).numeric('width'), { width: 0 });
+    jsonexpect(st({ width: 10 }).numeric('width'), { width: 10 });
+    jsonexpect(st({ width: '10px' }).numeric('width'), { width: 10 });
+
+    jsonexpect(st({ width: '10px', height: '20px' }).numeric('width'), {
+      width: 10,
+      height: '20px',
+    });
+    jsonexpect(st({ padding: '10px 20px' }).numeric('paddingTop'), {
+      paddingTop: 10,
+      paddingRight: '20px',
+      paddingBottom: '10px',
+      paddingLeft: '20px',
     });
   });
 
-  test('map root style with transform', () => {
-    expect(styleTransform({ height: 10 }, [['merge', { width: 20 }]])).toEqual({
-      height: 10,
-      width: 20,
+  test('scale', () => {
+    jsonexpect(st({}).scale(), {});
+
+    jsonexpect(st({ padding: '10px 20px' }).scale({ paddingTop: 5 }), {
+      paddingTop: 50,
+      paddingRight: '20px',
+      paddingBottom: '10px',
+      paddingLeft: '20px',
     });
-  });
-
-  test('caching with core transforms', () => {
-    const style = { height: 10 };
-
-    const res1 = styleTransform(style, [{ width: 20 }]);
-    const res2 = styleTransform(style, [{ width: 20 }]);
-
-    expect(res1).toBe(res2);
-
-    const res3 = styleTransform(style, [['merge', { width: 20 }]]);
-    const res4 = styleTransform(style, [['merge', { width: 20 }]]);
-
-    expect(res3).toBe(res4);
-  });
-
-  test('caching with custom transforms', () => {
-    const style = { height: 10 };
-    const customTransforms = { custom: s => s };
-
-    const res1 = styleTransform(style, [['merge', { width: 20 }]]);
-    const res2 = styleTransform(
-      style,
-      [['merge', { width: 20 }]],
-      customTransforms,
-    );
-    const res3 = styleTransform(
-      style,
-      [['merge', { width: 20 }]],
-      customTransforms,
-    );
-
-    expect(res1).not.toBe(res2);
-    expect(res2).toBe(res3);
   });
 });

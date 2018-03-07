@@ -1,11 +1,21 @@
 import * as immutable from 'object-path-immutable';
 
-import css from '../css';
-import { CSSMap, CSSProps, CSSTree, Obj } from '../typings';
-
-import { isObject } from './misc';
+import css from './css';
+import { CSSMap, CSSProps, CSSTree, Obj } from './typings';
 
 x => x as CSSProps;
+
+export const undefOrNull = x => x === null || x === undefined;
+
+export const isObject = (v: any) =>
+  Object.prototype.toString.call(v) === '[object Object]';
+
+export const flatten = <T>(array: (T[] | T | undefined)[]) =>
+  array.reduce<T[]>((res, v) => res.concat(v || []), []);
+
+const uniqueFromArray = <T>(array: T[]) => Array.from(new Set(array));
+export const unique = <T>(array: (T[] | T | undefined)[]) =>
+  uniqueFromArray(flatten(array));
 
 export const mapToTree = (styleMap: CSSMap): CSSTree => {
   let branchStyles = {} as Obj;
@@ -36,4 +46,12 @@ export const treeToMap = (styleTree?: CSSTree): CSSMap => {
   }
 
   return result;
+};
+
+export const mergeMaps = (...styleMaps: CSSMap[]): CSSMap => {
+  const keys = unique(styleMaps.map(m => Object.keys(m)));
+  return keys.reduce(
+    (res, k) => ({ ...res, [k]: css.merge(...styleMaps.map(m => m[k])) }),
+    {},
+  );
 };
