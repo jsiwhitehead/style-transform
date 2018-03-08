@@ -6,33 +6,42 @@ import { isObject, mergeMaps, treeToMap } from './utils';
 
 x => x as CSSProps;
 
+const blankAsString = x => {
+  x.toString = () => '';
+  return x;
+};
+
 const st = (styleMap: CSSMap): Style => ({
   ...styleMap[''],
 
-  defaults: (...styleTrees) =>
+  defaults: blankAsString((...styleTrees) =>
     st(mergeMaps(...styleTrees.map(treeToMap), styleMap)),
+  ),
 
-  expandFor: (...props) =>
+  expandFor: blankAsString((...props) =>
     st({ ...styleMap, '': css.expandFor(styleMap[''], ...props) }),
+  ),
 
-  filter: (...props) =>
+  filter: blankAsString((...props) =>
     st({ ...styleMap, '': css.filter(styleMap[''], ...props) }),
+  ),
 
-  filterKeys: (...keys) => {
+  filterKeys: blankAsString((...keys) => {
     if (keys.length === 0) return st({ '': styleMap[''] });
     return st(
       Object.keys(styleMap)
         .filter(key => (key ? key.split('.') : []).every(k => keys.includes(k)))
         .reduce((res, k) => ({ ...res, [k]: styleMap[k] }), {}),
     );
-  },
+  }),
 
-  map: map => st({ ...styleMap, '': map(styleMap['']) }),
+  map: blankAsString(map => st({ ...styleMap, '': map(styleMap['']) })),
 
-  merge: (...styleTrees: (CSSTree | undefined)[]) =>
+  merge: blankAsString((...styleTrees: (CSSTree | undefined)[]) =>
     st(mergeMaps(styleMap, ...styleTrees.map(treeToMap))),
+  ),
 
-  mergeKeys: (...args: (string | Obj<boolean>)[]) => {
+  mergeKeys: blankAsString((...args: (string | Obj<boolean>)[]) => {
     const keys = isObject(args[0])
       ? Object.keys(args[0]).filter(k => args[0][k])
       : (args as string[]);
@@ -55,16 +64,17 @@ const st = (styleMap: CSSMap): Style => ({
           {},
         ),
     );
-  },
+  }),
 
-  numeric: (...props: string[]) => {
+  numeric: blankAsString((...props: string[]) => {
     const result = css.expandFor(styleMap[''], ...props);
     for (const k of props) result[k] = parseFloat(result[k] || 0);
     return st({ ...styleMap, '': result });
-  },
+  }),
 
-  scale: (scales: Obj<number | Obj<number>> = {}) =>
+  scale: blankAsString((scales: Obj<number | Obj<number>> = {}) =>
     st({ ...styleMap, '': css.scale(styleMap[''], scales) }),
+  ),
 });
 
 export default (style: Style | CSSTree | undefined): Style =>
