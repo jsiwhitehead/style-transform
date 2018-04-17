@@ -1,7 +1,7 @@
 export { CSSProps, CSSTree, Style } from './typings';
 
 import css from './css';
-import { CSSProps, CSSMap, CSSTree, Obj, Style } from './typings';
+import { CSSMap, CSSProps, CSSTree, Obj, Style } from './typings';
 import { isObject, mergeMaps, treeToMap } from './utils';
 
 x => x as CSSProps;
@@ -78,4 +78,4 @@ const st = (styleMap: CSSMap): Style => ({
 });
 
 export default (style: Style | CSSTree | undefined): Style =>
-  style && style.expandFor ? (style as Style) : st(treeToMap(style));
+  style && (style as Style).expandFor ? (style as Style) : st(treeToMap(style));

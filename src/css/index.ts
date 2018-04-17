@@ -1,7 +1,3 @@
-import { CSSProps, Obj } from '../typings';
-
-(...x) => x as CSSProps | Obj;
-
 import expandFor from './expandFor';
 import filter from './filter';
 import merge from './merge';
