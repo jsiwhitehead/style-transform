@@ -16,7 +16,6 @@ export type Style = CSSProps & {
   defaults(...styleTrees: (CSSTree | undefined)[]): Style;
   expandFor(...props: string[]): Style;
   filter(...props: string[]): Style;
-  filterKeys(...props: string[]): Style;
   map(map: (props: CSSProps) => CSSProps): Style;
   merge(...styleTrees: (CSSTree | undefined)[]): Style;
   mergeKeys(...args: (string | Obj<boolean>)[]): Style;

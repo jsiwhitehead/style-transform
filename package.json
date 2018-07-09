@@ -1,15 +1,14 @@
 {
   "name": "style-transform",
   "version": "0.2.2",
-  "description":
-    "A toolkit for fast and flexible manipulation of css-in-js styles",
-  "author": "Jon Whitehead",
+  "description": "Wrap style objects with a fluent API for easy manipulation",
+  "homepage": "https://github.com/jsiwhitehead/style-transform",
   "license": "MIT",
+  "author": "Jon Whitehead",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "prettier":
-      "prettier --single-quote --trailing-comma all --write \"{src,test}/**/*.ts\"",
+    "prettier": "prettier --single-quote --trailing-comma all --write \"{src,test}/**/*.ts\"",
     "clean": "rimraf lib/*",
     "build": "yarn run clean && tsc",
     "test": "jest",
@@ -20,19 +19,22 @@
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|js)$",
-    "moduleFileExtensions": ["ts", "js"]
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
   },
   "devDependencies": {
-    "@types/jest": "^22.2.3",
-    "jest": "^22.4.3",
-    "prettier": "^1.12.1",
+    "@types/jest": "^23.1.4",
+    "jest": "^23.3.0",
+    "prettier": "^1.13.7",
     "rimraf": "^2.6.2",
-    "ts-jest": "^22.4.3",
-    "typescript": "^2.8.1"
+    "ts-jest": "^23.0.0",
+    "typescript": "^2.9.2"
   },
   "dependencies": {
     "css-shorthand-expand": "1.1.0",
-    "csstype": "^2.2.0",
-    "object-path-immutable": "^1.0.1"
+    "csstype": "^2.5.5",
+    "object-path-immutable": "^3.0.0"
   }
 }

@@ -21,7 +21,9 @@ export const mapToTree = (styleMap: CSSMap): CSSTree => {
   let branchStyles = {} as Obj;
 
   for (const k of Object.keys(styleMap)) {
-    if (k !== '') branchStyles = immutable.set(branchStyles, k, styleMap[k]);
+    if (k !== '') {
+      branchStyles = (immutable as any).set(branchStyles, k, styleMap[k]);
+    }
   }
 
   return { ...styleMap[''], ...branchStyles };

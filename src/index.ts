@@ -26,15 +26,6 @@ const st = (styleMap: CSSMap): Style => ({
     st({ ...styleMap, '': css.filter(styleMap[''], ...props) }),
   ),
 
-  filterKeys: blankAsString((...keys) => {
-    if (keys.length === 0) return st({ '': styleMap[''] });
-    return st(
-      Object.keys(styleMap)
-        .filter(key => (key ? key.split('.') : []).every(k => keys.includes(k)))
-        .reduce((res, k) => ({ ...res, [k]: styleMap[k] }), {}),
-    );
-  }),
-
   map: blankAsString(map => st({ ...styleMap, '': map(styleMap['']) })),
 
   merge: blankAsString((...styleTrees: (CSSTree | undefined)[]) =>
