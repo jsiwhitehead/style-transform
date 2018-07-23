@@ -46,19 +46,6 @@ describe('transforms', () => {
     jsonexpect(st({ padding: 10 }).filter('paddingTop'), { paddingTop: 10 });
   });
 
-  test('filterKeys', () => {
-    jsonexpect(st({}).filterKeys('focused'), {});
-
-    jsonexpect(
-      st({
-        width: 10,
-        focused: { width: 20 },
-        active: { width: 40, focused: { width: 30 } },
-      }).filterKeys('focused'),
-      { width: 10 },
-    );
-  });
-
   test('merge', () => {
     jsonexpect(st({}).merge(), {});
     jsonexpect(st({}).merge(undefined), {});
